@@ -6,11 +6,11 @@ import { motion } from "framer-motion"
 export function About() {
   return (
     <section id="about" className="py-24 px-6 bg-background">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-16">
+      <div className="max-w-6xl mx-auto flex flex-col items-center">
+        <div className="mb-16 flex flex-col items-center text-center">
           <motion.h2
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-4xl font-bold tracking-tight mb-4"
           >
@@ -21,7 +21,7 @@ export function About() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="h-1 w-20 bg-primary origin-left"
+            className="h-1 w-20 bg-primary origin-center"
           />
         </div>
 
