@@ -1,8 +1,9 @@
 "use client"
 
-import React from "react"
-import { motion } from "framer-motion"
+import React, { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Award } from "lucide-react"
+import { Skeleton } from "./ui/Skeleton"
 
 const certifications = [
   {
@@ -35,7 +36,34 @@ const certifications = [
   }
 ]
 
+const CertificationSkeleton = () => (
+  <div className="w-[350px] flex-shrink-0">
+    <div className="rounded-3xl bg-card border border-card-border h-full flex flex-col p-4">
+      <Skeleton className="aspect-[16/9] rounded-2xl mb-6" />
+      <div className="p-4 flex flex-col flex-grow">
+        <Skeleton className="h-7 w-3/4 mb-3" />
+        <div className="flex justify-between mb-4">
+          <Skeleton className="h-4 w-1/4" />
+          <Skeleton className="h-4 w-1/6" />
+        </div>
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-5/6" />
+        </div>
+      </div>
+    </div>
+  </div>
+)
+
 export function Certifications() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => setLoading(false), 2000)
+    return () => clearTimeout(timer)
+  }, [])
+
   // Triple the items to ensure seamless loop
   const extendedCertifications = [...certifications, ...certifications, ...certifications]
 
@@ -67,56 +95,79 @@ export function Certifications() {
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-accent/30 to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-accent/30 to-transparent z-10 pointer-events-none" />
 
-        <motion.div
-          animate={{
-            x: ["0%", "-33.333%"],
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 30,
-              ease: "linear",
-            },
-          }}
-          className="flex gap-8 px-4 w-fit"
-          style={{ willChange: "transform" }}
-          whileHover={{ transition: { duration: 60 } }} // Slow down on hover for easier reading
-        >
-          {extendedCertifications.map((cert, index) => (
-            <div
-              key={`${cert.title}-${index}`}
-              className="w-[350px] flex-shrink-0"
+        <AnimatePresence mode="wait">
+          {loading ? (
+            <motion.div
+              key="skeletons"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex gap-8 px-4 w-full justify-center py-8"
             >
-              <div
-                className="group overflow-hidden rounded-3xl bg-card border border-card-border transition-all hover:shadow-2xl hover:shadow-primary/5 h-full flex flex-col"
+              {[1, 2, 3].map((i) => (
+                <CertificationSkeleton key={i} />
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="content"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="w-full"
+            >
+              <motion.div
+                animate={{
+                  x: ["0%", "-33.333%"],
+                }}
+                transition={{
+                  x: {
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    duration: 30,
+                    ease: "linear",
+                  },
+                }}
+                className="flex gap-8 px-4 w-fit py-8"
+                style={{ willChange: "transform" }}
+                whileHover={{ transition: { duration: 60 } }} // Slow down on hover for easier reading
               >
-                {/* Image Preview */}
-                <div className="relative aspect-[16/9] overflow-hidden">
-                  <img
-                    src={cert.src}
-                    alt={cert.title}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-primary/10 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center">
-                    <Award className="text-white w-12 h-12 drop-shadow-lg" />
-                  </div>
-                </div>
+                {extendedCertifications.map((cert, index) => (
+                  <div
+                    key={`${cert.title}-${index}`}
+                    className="w-[350px] flex-shrink-0"
+                  >
+                    <div
+                      className="group overflow-hidden rounded-3xl bg-card border border-card-border transition-all hover:shadow-2xl hover:shadow-primary/5 h-full flex flex-col"
+                    >
+                      {/* Image Preview */}
+                      <div className="relative aspect-[16/9] overflow-hidden">
+                        <img
+                          src={cert.src}
+                          alt={cert.title}
+                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-primary/10 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center">
+                          <Award className="text-white w-12 h-12 drop-shadow-lg" />
+                        </div>
+                      </div>
 
-                <div className="p-8 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold mb-2">{cert.title}</h3>
-                  <div className="flex justify-between items-center mb-4 text-xs font-semibold uppercase tracking-widest text-secondary/60">
-                    <span>{cert.issuer}</span>
-                    <span>{cert.date}</span>
+                      <div className="p-8 flex flex-col flex-grow">
+                        <h3 className="text-xl font-bold mb-2">{cert.title}</h3>
+                        <div className="flex justify-between items-center mb-4 text-xs font-semibold uppercase tracking-widest text-secondary/60">
+                          <span>{cert.issuer}</span>
+                          <span>{cert.date}</span>
+                        </div>
+                        <p className="text-sm text-secondary">
+                          {cert.description}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-sm text-secondary">
-                    {cert.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   )

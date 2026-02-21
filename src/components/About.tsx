@@ -36,7 +36,7 @@ export function About() {
               I am a passionate Full-Stack Web Developer with a keen eye for UI/UX design. My journey in technology is driven by a desire to create impactful digital solutions that bridge the gap between user needs and technical excellence.
             </p>
             <p className="text-lg text-secondary leading-relaxed mb-6">
-              With expertise in modern frameworks like React and Next.js, and a solid foundation in backend technologies, I thrive in building scalable applications that offer seamless user experiences.
+              With moderate knowledge in modern frameworks like PHP and Laravel, and a solid foundation in backend technologies, I thrive in building scalable applications that offer seamless user experiences.
             </p>
           </motion.div>
 
