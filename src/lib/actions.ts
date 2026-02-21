@@ -6,32 +6,62 @@
  */
 export async function submitContactForm(formData: FormData) {
   try {
-    // Add the access key for Web3Forms (this is a public key for kemuelpaulnalagon@gmail.com)
-    // The user can also get their own key at https://web3forms.com/
-    formData.append("access_key", "96599e69-9060-449d-b895-cd27cc6e32d5") 
-    formData.append("subject", `New Portfolio Message from ${formData.get("name")}`)
-    formData.append("from_name", "Portfolio Robot")
+    const name = formData.get("name")
+    const email = formData.get("email")
+    const message = formData.get("message")
+
+    // Construct the data object
+    const data = {
+      access_key: "6433f14f-f102-47e8-88a3-bef476112ef7",
+      name: name,
+      email: email,
+      message: message,
+      subject: `New Portfolio Message from ${name}`,
+      from_name: "Portfolio Robot"
+    }
+
+    console.log("Submitting to Web3Forms:", { ...data, access_key: "***" })
 
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      body: formData
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(data)
     })
 
-    const result = await response.json()
-
-    if (result.success) {
-      return {
-        success: true,
-        message: "Thank you! Your message has been sent successfully."
+    const status = response.status
+    const contentType = response.headers.get("content-type")
+    
+    if (contentType && contentType.includes("application/json")) {
+      const result = await response.json()
+      console.log("Web3Forms Response:", result)
+      
+      if (result.success) {
+        return { success: true, message: "Success" }
+      } else {
+        return { success: false, message: result.message || `Submission failed (Status: ${status})` }
       }
     } else {
-      throw new Error(result.message || "Something went wrong")
+      const text = await response.text()
+      console.error(`Web3Forms Non-JSON Error (Status ${status}):`, text)
+      
+      let errorMessage = "The email service returned an unexpected response."
+      if (status === 403) {
+        errorMessage = "Permission Denied (403). Please ensure your Web3Forms access key is correct and your email is verified."
+      }
+      
+      return { 
+        success: false, 
+        message: `${errorMessage} (Status: ${status})`
+      }
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("Form submission error:", error)
     return {
       success: false,
-      message: "An error occurred while sending your message. Please try again later."
+      message: error.message || "An unexpected error occurred. Please try again later."
     }
   }
 }
