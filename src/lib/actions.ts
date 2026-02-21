@@ -12,7 +12,7 @@ export async function submitContactForm(formData: FormData) {
 
     // Construct the data object
     const data = {
-      access_key: "6433f14f-f102-47e8-88a3-bef476112ef7",
+      access_key: "f753995f-c354-4b1b-9b81-9ed45ffe217f",
       name: name,
       email: email,
       message: message,
