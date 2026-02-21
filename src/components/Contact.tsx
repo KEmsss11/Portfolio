@@ -3,7 +3,6 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Send, CheckCircle2 } from "lucide-react"
-import { submitContactForm } from "@/lib/actions"
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -16,14 +15,21 @@ export function Contact() {
     setError(null)
     
     const formData = new FormData(e.currentTarget)
+    const name = formData.get("name") as string
+    const email = formData.get("email") as string
+    const message = formData.get("message") as string
+
     try {
-      const result = await submitContactForm(formData)
+      // Construct mailto URL
+      const subject = encodeURIComponent(`New Portfolio Message from ${name}`)
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)
+      const mailtoUrl = `mailto:kemuelpaulnalagon@gmail.com?subject=${subject}&body=${body}`
+
+      // Open mail client
+      window.location.assign(mailtoUrl)
       
-      if (result.success) {
-        setIsSuccess(true)
-      } else {
-        setError(result.message)
-      }
+      // Since mailto doesn't give feedback, we show success immediately
+      setIsSuccess(true)
     } catch (err) {
       setError("Something went wrong. Please try again.")
     } finally {
