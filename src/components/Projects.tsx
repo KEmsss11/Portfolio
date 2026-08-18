@@ -37,7 +37,7 @@ const projects = [
     src: "/eca.png",
     tags: ["PHP", "Xampp", "Tailwind", "HTML", "CSS", "JS", "Laravel", "MySQL", "Azure"],
     github: "https://github.com/KEmsss11/ECA-IS.git",
-    live: "eca11.site"
+    live: "https://eca11.site/login"
   }
 ]
 
