@@ -33,7 +33,7 @@ const projects = [
   },
   {
     title: "ECA-IS",
-    description: "This is the official information system for the National Commission of Senior Citizens (NCSC) - Region 11 (Davao Region). The system is designed to provide a robust and efficient platform for managing beneficiary records, end-to-end processing workflows, AI-assisted data entry, and regional reporting.",
+    description: "Internship project for the National Commission of Senior Citizens (NCSC) - Region 11 (Davao Region). The system is designed to provide a robust and efficient platform for managing beneficiary records, end-to-end processing workflows, AI-assisted data entry, and regional reporting.",
     src: "/eca.png",
     tags: ["PHP", "Xampp", "Tailwind", "HTML", "CSS", "JS", "Laravel", "MySQL", "Azure"],
     github: "https://github.com/KEmsss11/ECA-IS.git",
