@@ -185,7 +185,7 @@ export function Hero() {
         <motion.div variants={itemVariants} className="relative">
           <div className="relative h-44 w-44 overflow-hidden rounded-full ring-4 ring-primary/10 shadow-2xl">
             <Image
-              src="/Profile.png"
+              src="/Profile1.png"
               alt="Profile photo"
               fill
               className="object-cover"
