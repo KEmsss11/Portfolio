@@ -16,14 +16,6 @@ const projects = [
     live: "#"
   },
   {
-    title: "Happy Birthday",
-    description: "A magical digital garden designed for special moments with animated hearts and flowers.",
-    src: "/Bday.png",
-    tags: ["HTML", "CSS", "JS"],
-    github: "https://github.com/KEmsss11/Bday.git",
-    live: "https://shane-bday.vercel.app/"
-  },
-  {
     title: "Social Welfare System",
     description: "A comprehensive platform for managing social services and community welfare programs effectively.",
     src: "/Social_welfare.jpg",
