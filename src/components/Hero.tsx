@@ -13,9 +13,23 @@ import {
   SiCss3,
   SiHtml5,
   SiJavascript,
+  SiNextdotjs,
+  SiTypescript,
+  SiNodedotjs,
+  SiGithubactions,
+  SiDocker,
+  SiGithub,
+  SiPostgresql,
 } from "react-icons/si"
 
 const techStack = [
+  { name: "Next.js",    color: "#000000", bg: "#00000020", Icon: SiNextdotjs },
+  { name: "TypeScript", color: "#3178C6", bg: "#3178C620", Icon: SiTypescript },
+  { name: "Node.js",    color: "#5FA04E", bg: "#5FA04E20", Icon: SiNodedotjs },
+  { name: "PostgreSQL", color: "#4169E1", bg: "#4169E120", Icon: SiPostgresql },
+  { name: "Docker",     color: "#2496ED", bg: "#2496ED20", Icon: SiDocker },
+  { name: "CI/CD",      color: "#2088FF", bg: "#2088FF20", Icon: SiGithubactions },
+  { name: "GitHub",     color: "#181717", bg: "#18171720", Icon: SiGithub },
   { name: "PHP",        color: "#777BB4", bg: "#777BB420", Icon: SiPhp },
   { name: "MySQL",      color: "#4479A1", bg: "#4479A120", Icon: SiMysql },
   { name: "Figma",      color: "#F24E1E", bg: "#F24E1E20", Icon: SiFigma },
@@ -72,8 +86,8 @@ export function Hero() {
   const mouseX = useSpring(rawX, { stiffness: 80, damping: 20 })
   const mouseY = useSpring(rawY, { stiffness: 80, damping: 20 })
   // Convert to percentage strings for CSS
-  const pctX = useTransform(mouseX, (v) => `${v}%`)
-  const pctY = useTransform(mouseY, (v) => `${v}%`)
+  const pctX = useTransform(mouseX, (v: number) => `${v}%`)
+  const pctY = useTransform(mouseY, (v: number) => `${v}%`)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -188,8 +202,8 @@ export function Hero() {
               src="/Profile1.png"
               alt="Profile photo"
               fill
-              className="object-cover"
-              onError={(e) => {
+              className="object-cover object-top"
+              onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
                 // Fallback to gradient avatar if no image
                 const target = e.target as HTMLImageElement
                 target.style.display = "none"

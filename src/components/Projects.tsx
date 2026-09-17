@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink, Github, Eye } from "lucide-react"
 import { Skeleton } from "./ui/Skeleton"
+import { ImageModal } from "./ui/ImageModal"
 
 const projects = [
   {
@@ -56,6 +56,12 @@ const ProjectSkeleton = () => (
 
 export function Projects() {
   const [loading, setLoading] = useState(true)
+  const [selectedImage, setSelectedImage] = useState<{
+    src: string
+    title: string
+    description: string
+    live?: string
+  } | null>(null)
 
   useEffect(() => {
     // Simulate initial loading
@@ -114,13 +120,26 @@ export function Projects() {
                     transition={{ delay: index * 0.1 }}
                     className="group relative overflow-hidden rounded-3xl bg-card border border-card-border p-4 transition-all hover:shadow-2xl hover:shadow-primary/5 flex flex-col h-full"
                   >
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl mb-6 flex-shrink-0">
+                    <div
+                      onClick={() =>
+                        setSelectedImage({
+                          src: project.src,
+                          title: project.title,
+                          description: project.description,
+                          live: project.live,
+                        })
+                      }
+                      className="relative aspect-[16/10] overflow-hidden rounded-2xl mb-6 flex-shrink-0 cursor-pointer"
+                    >
                       <img
                         src={project.src}
                         alt={project.title}
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity group-hover:opacity-100" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center gap-2 text-white font-semibold text-xs tracking-wider uppercase backdrop-blur-[2px]">
+                        <Eye size={20} />
+                        <span>View Image</span>
+                      </div>
                     </div>
 
                     <div className="px-2 flex flex-col flex-grow">
@@ -137,10 +156,10 @@ export function Projects() {
                       </p>
 
                       <div className="flex gap-4 mt-auto">
-                        <a href={project.github} className="flex items-center gap-2 text-xs font-semibold hover:text-primary transition-colors">
+                        <a href={project.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-semibold hover:text-primary transition-colors">
                           <Github size={16} /> Code
                         </a>
-                        <a href={project.live} className="flex items-center gap-2 text-xs font-semibold hover:text-primary transition-colors">
+                        <a href={project.live} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-semibold hover:text-primary transition-colors">
                           <ExternalLink size={16} /> Demo
                         </a>
                       </div>
@@ -152,6 +171,15 @@ export function Projects() {
           </AnimatePresence>
         </div>
       </div>
+
+      <ImageModal
+        isOpen={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+        src={selectedImage?.src || null}
+        title={selectedImage?.title}
+        description={selectedImage?.description}
+        link={selectedImage?.live}
+      />
     </section>
   )
 }

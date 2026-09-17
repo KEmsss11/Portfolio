@@ -2,45 +2,60 @@
 
 import React, { useState } from "react"
 import { motion } from "framer-motion"
-import { Send, CheckCircle2 } from "lucide-react"
+import { Mail, ExternalLink, Copy, Check, Sparkles } from "lucide-react"
+import { SiInstagram, SiGithub, SiLinkedin } from "react-icons/si"
 
 export function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+  const emailAddress = "kemuelpaulnalagon@gmail.com"
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setError(null)
-    
-    const formData = new FormData(e.currentTarget)
-    const name = formData.get("name") as string
-    const email = formData.get("email") as string
-    const message = formData.get("message") as string
+  const socialLinks = [
+    {
+      name: "Instagram",
+      handle: "@taco.kp",
+      url: "https://www.instagram.com/taco.kp/",
+      icon: SiInstagram,
+      color: "#E4405F",
+      bg: "#E4405F15",
+    },
+    {
+      name: "GitHub",
+      handle: "KEmsss11",
+      url: "https://github.com/KEmsss11",
+      icon: SiGithub,
+      color: "#181717",
+      bg: "#18171715",
+    },
+    {
+      name: "LinkedIn",
+      handle: "Kemuel Paul Nalagon",
+      url: "https://www.linkedin.com/in/kemuel-paul-nalagon-83a73439a/",
+      icon: SiLinkedin,
+      color: "#0A66C2",
+      bg: "#0A66C215",
+    },
+  ]
 
-    try {
-      // Construct mailto URL
-      const subject = encodeURIComponent(`New Portfolio Message from ${name}`)
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)
-      const mailtoUrl = `mailto:kemuelpaulnalagon@gmail.com?subject=${subject}&body=${body}`
-
-      // Open mail client
-      window.location.assign(mailtoUrl)
-      
-      // Since mailto doesn't give feedback, we show success immediately
-      setIsSuccess(true)
-    } catch (err) {
-      setError("Something went wrong. Please try again.")
-    } finally {
-      setIsSubmitting(false)
-    }
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(emailAddress)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
     <section id="contact" className="py-24 px-6 bg-muted/50 overflow-hidden">
       <div className="max-w-4xl mx-auto">
+        {/* Header */}
         <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-accent px-4 py-1 text-xs font-semibold uppercase tracking-widest text-secondary mb-4"
+          >
+            <Sparkles size={14} className="text-primary" />
+            <span>Let's Connect</span>
+          </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -56,117 +71,90 @@ export function Contact() {
             transition={{ delay: 0.1 }}
             className="text-secondary max-w-lg mx-auto"
           >
-            Have a project in mind? Let's build something extraordinary together.
+            Have a project in mind, an opportunity, or just want to connect? Reach out via email or any of my social profiles!
           </motion.p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="relative glass rounded-[2rem] p-8 md:p-12 shadow-xl min-h-[400px] flex flex-col justify-center"
-        >
-          {isSuccess ? (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center space-y-6 py-12"
-            >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
-                className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto"
-              >
-                <CheckCircle2 size={40} className="text-primary" />
-              </motion.div>
-              <div className="space-y-2">
-                <h3 className="text-2xl font-bold">Message Received!</h3>
-                <p className="text-secondary max-w-sm mx-auto">
-                  Thank you for reaching out. I'll get back to you at kemuelpaulnalagon@gmail.com as soon as possible.
-                </p>
+        {/* Main Hub Grid */}
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Main Direct Email Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="md:col-span-2 glass rounded-[2rem] p-8 shadow-xl border border-card-border flex flex-col md:flex-row items-center justify-between gap-6"
+          >
+            <div className="flex items-center gap-5 w-full md:w-auto">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                <Mail size={28} />
               </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsSuccess(false)}
-                className="text-sm font-bold text-primary hover:underline"
-              >
-                Send another message
-              </motion.button>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="grid gap-6 md:grid-cols-2">
-              <div className="space-y-2">
-                <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-secondary/70">
-                  Full Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  required
-                  placeholder="John Doe"
-                  className="w-full rounded-2xl bg-background border border-card-border px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/10"
-                />
+              <div className="overflow-hidden">
+                <span className="text-xs font-bold uppercase tracking-wider text-secondary/70">
+                  Direct Email
+                </span>
+                <h3 className="text-lg font-bold text-foreground truncate">
+                  {emailAddress}
+                </h3>
               </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-secondary/70">
-                  Email Address
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="john@example.com"
-                  className="w-full rounded-2xl bg-background border border-card-border px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/10"
-                />
-              </div>
+            </div>
 
-              <div className="space-y-2 md:col-span-2">
-                <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-secondary/70">
-                  Your Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={4}
-                  placeholder="Tell me about your project..."
-                  className="w-full rounded-2xl bg-background border border-card-border px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/10 resize-none"
-                />
-              </div>
+            <div className="flex gap-3 w-full md:w-auto">
+              <button
+                onClick={handleCopyEmail}
+                className="flex-1 md:flex-initial flex items-center justify-center gap-2 rounded-xl border border-card-border bg-background px-5 py-3 text-xs font-semibold hover:border-primary/40 transition-colors shadow-sm"
+              >
+                {copied ? (
+                  <>
+                    <Check size={14} className="text-green-500" /> Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy size={14} /> Copy Email
+                  </>
+                )}
+              </button>
+              <a
+                href={`mailto:${emailAddress}`}
+                className="flex-1 md:flex-initial flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-xs font-semibold text-background hover:opacity-90 transition-all shadow-sm"
+              >
+                <ExternalLink size={14} /> Send Email
+              </a>
+            </div>
+          </motion.div>
 
-              {error && (
-                <div className="md:col-span-2 text-red-500 text-sm font-medium">
-                  {error}
+          {/* Social Links Cards */}
+          {socialLinks.map((social, index) => {
+            const IconComp = social.icon
+            return (
+              <motion.a
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 + index * 0.1 }}
+                className="glass rounded-3xl p-6 border border-card-border flex items-center justify-between transition-all hover:border-primary/30 hover:scale-[1.02] active:scale-[0.98] shadow-sm group"
+              >
+                <div className="flex items-center gap-4">
+                  <div
+                    style={{ color: social.color, backgroundColor: social.bg }}
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110"
+                  >
+                    <IconComp size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold">{social.name}</h4>
+                    <p className="text-xs text-secondary">{social.handle}</p>
+                  </div>
                 </div>
-              )}
-
-              <div className="md:col-span-2 pt-4">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 rounded-2xl bg-primary px-8 py-4 text-sm font-bold text-background transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                      className="h-5 w-5 border-2 border-background/30 border-t-background rounded-full"
-                    />
-                  ) : (
-                    <>
-                      <Send size={18} /> Send Message
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          )}
-        </motion.div>
+                <ExternalLink size={18} className="text-secondary opacity-50 group-hover:opacity-100 group-hover:text-primary transition-all" />
+              </motion.a>
+            )
+          })}
+        </div>
       </div>
     </section>
   )

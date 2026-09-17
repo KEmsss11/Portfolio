@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Award } from "lucide-react"
+import { Award, Eye } from "lucide-react"
 import { Skeleton } from "./ui/Skeleton"
+import { ImageModal } from "./ui/ImageModal"
 
 const certifications = [
   {
@@ -57,6 +58,11 @@ const CertificationSkeleton = () => (
 
 export function Certifications() {
   const [loading, setLoading] = useState(true)
+  const [selectedCert, setSelectedCert] = useState<{
+    src: string
+    title: string
+    description: string
+  } | null>(null)
 
   useEffect(() => {
     // Simulate loading
@@ -140,14 +146,24 @@ export function Certifications() {
                       className="group overflow-hidden rounded-3xl bg-card border border-card-border transition-all hover:shadow-2xl hover:shadow-primary/5 h-full flex flex-col"
                     >
                       {/* Image Preview */}
-                      <div className="relative aspect-[16/9] overflow-hidden">
+                      <div
+                        onClick={() =>
+                          setSelectedCert({
+                            src: cert.src,
+                            title: `${cert.title} - ${cert.issuer} (${cert.date})`,
+                            description: cert.description,
+                          })
+                        }
+                        className="relative aspect-[16/9] overflow-hidden cursor-pointer"
+                      >
                         <img
                           src={cert.src}
                           alt={cert.title}
                           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                         />
-                        <div className="absolute inset-0 bg-primary/10 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center">
-                          <Award className="text-white w-12 h-12 drop-shadow-lg" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center gap-2 text-white font-semibold text-xs tracking-wider uppercase backdrop-blur-[2px]">
+                          <Eye size={20} />
+                          <span>View Certificate</span>
                         </div>
                       </div>
 
@@ -169,6 +185,14 @@ export function Certifications() {
           )}
         </AnimatePresence>
       </div>
+
+      <ImageModal
+        isOpen={!!selectedCert}
+        onClose={() => setSelectedCert(null)}
+        src={selectedCert?.src || null}
+        title={selectedCert?.title}
+        description={selectedCert?.description}
+      />
     </section>
   )
 }
