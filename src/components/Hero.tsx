@@ -202,7 +202,7 @@ export function Hero() {
               src="/Profile1.png"
               alt="Profile photo"
               fill
-              className="object-cover object-top"
+              className="object-cover object-[center_15%]"
               onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
                 // Fallback to gradient avatar if no image
                 const target = e.target as HTMLImageElement
