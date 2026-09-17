@@ -18,8 +18,8 @@ export function About() {
     },
     {
       icon: Server,
-      title: "DevOps & Tooling",
-      desc: "Containerizing apps with Docker, setting up automated CI/CD workflows, and version control with Git/GitHub.",
+      title: "Cloud & DevOps",
+      desc: "Deploying cloud applications on AWS EC2 & Azure Hosting, containerizing with Docker, and running automated CI/CD.",
     },
     {
       icon: Palette,
@@ -31,7 +31,7 @@ export function About() {
   const highlights = [
     "Next.js & TypeScript Specialist",
     "PHP & Laravel Frameworks",
-    "PostgreSQL & MySQL Systems",
+    "AWS EC2 & Azure Cloud Hosting",
     "Docker & CI/CD Pipelines",
   ]
 
@@ -76,7 +76,7 @@ export function About() {
                 My technical stack spans frontend frameworks like <strong className="text-foreground">Next.js</strong> and <strong className="text-foreground">TypeScript</strong>, backend development with <strong className="text-foreground">Node.js</strong> and <strong className="text-foreground">PHP/Laravel</strong>, as well as database design with <strong className="text-foreground">PostgreSQL</strong> and <strong className="text-foreground">MySQL</strong>.
               </p>
               <p className="text-base text-secondary leading-relaxed mb-8">
-                I also leverage containerization with <strong className="text-foreground">Docker</strong> and continuous integration with <strong className="text-foreground">CI/CD</strong> pipelines to deliver scalable, production-ready software efficiently.
+                I also leverage cloud hosting with <strong className="text-foreground">AWS EC2</strong> and <strong className="text-foreground">Azure</strong>, containerization with <strong className="text-foreground">Docker</strong>, and continuous integration with <strong className="text-foreground">CI/CD</strong> pipelines to deliver scalable, production-ready software efficiently.
               </p>
             </div>
 
