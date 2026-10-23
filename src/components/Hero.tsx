@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import Image from "next/image"
-import { Cloud } from "lucide-react"
+import { Bot, Cloud, Database } from "lucide-react"
 import { WaveBackground } from "./WaveBackground"
 
 import {
@@ -21,6 +21,7 @@ import {
   SiDocker,
   SiGithub,
   SiPostgresql,
+  SiPython,
 } from "react-icons/si"
 import { VscAzure } from "react-icons/vsc"
 
@@ -28,6 +29,9 @@ const techStack = [
   { name: "Next.js",       color: "#000000", bg: "#00000020", Icon: SiNextdotjs },
   { name: "TypeScript",    color: "#3178C6", bg: "#3178C620", Icon: SiTypescript },
   { name: "Node.js",       color: "#5FA04E", bg: "#5FA04E20", Icon: SiNodedotjs },
+  { name: "Python",        color: "#3776AB", bg: "#3776AB20", Icon: SiPython },
+  { name: "RAG",            color: "#7C3AED", bg: "#7C3AED20", Icon: Database },
+  { name: "Ollama",         color: "#111827", bg: "#11182720", Icon: Bot },
   { name: "AWS EC2",       color: "#FF9900", bg: "#FF990020", Icon: Cloud },
   { name: "Azure Hosting", color: "#0078D4", bg: "#0078D420", Icon: VscAzure },
   { name: "PostgreSQL",    color: "#4169E1", bg: "#4169E120", Icon: SiPostgresql },
