@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.api.ingest import router as ingest_router
 
 # Import the chatbot router from app/api/chat.py.
 #
@@ -102,3 +103,4 @@ app.include_router(
     chat_router,
     prefix="/api",
 )
+app.include_router(ingest_router, prefix="/api")

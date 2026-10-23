@@ -5,3 +5,4 @@ pymupdf
 psycopg[binary]
 sqlalchemy
 httpx
+python-multipart
