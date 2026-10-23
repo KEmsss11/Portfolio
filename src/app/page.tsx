@@ -4,7 +4,7 @@ import { About } from "@/components/About";
 import { Projects } from "@/components/Projects";
 import { Certifications } from "@/components/Certifications";
 import { Contact } from "@/components/Contact";
-
+import { FloatingChat } from "@/components/FloatingChat"
 export default function Home() {
   return (
     <main className="min-h-screen">
@@ -19,6 +19,7 @@ export default function Home() {
           © {new Date().getFullYear()} Portfolio. Built with Next.js &amp; Tailwind.
         </p>
       </footer>
+         <FloatingChat />
     </main>
   );
 }

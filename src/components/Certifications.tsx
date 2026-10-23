@@ -1,8 +1,9 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { Award, Eye } from "lucide-react"
+import { Eye } from "lucide-react"
 import { Skeleton } from "./ui/Skeleton"
 import { ImageModal } from "./ui/ImageModal"
 
@@ -156,10 +157,12 @@ export function Certifications() {
                         }
                         className="relative aspect-[16/9] overflow-hidden cursor-pointer"
                       >
-                        <img
+                        <Image
                           src={cert.src}
                           alt={cert.title}
-                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                          fill
+                          sizes="350px"
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center gap-2 text-white font-semibold text-xs tracking-wider uppercase backdrop-blur-[2px]">
                           <Eye size={20} />

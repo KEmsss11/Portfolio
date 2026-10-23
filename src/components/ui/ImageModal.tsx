@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect } from "react"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, ExternalLink } from "lucide-react"
 
@@ -67,11 +68,13 @@ export function ImageModal({
           </button>
 
           {/* Image Container */}
-          <div className="relative flex items-center justify-center overflow-auto max-h-[75vh] bg-black/40">
-            <img
+          <div className="relative h-[75vh] w-full overflow-auto bg-black/40">
+            <Image
               src={src}
               alt={title || "View image"}
-              className="max-h-[75vh] w-auto max-w-full object-contain rounded-t-3xl"
+              fill
+              sizes="(max-width: 768px) 100vw, 80vw"
+              className="rounded-t-3xl object-contain"
             />
           </div>
 

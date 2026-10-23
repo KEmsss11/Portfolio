@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import Image from "next/image"
+import { Cloud } from "lucide-react"
 import { WaveBackground } from "./WaveBackground"
 
 import {
@@ -10,7 +11,7 @@ import {
   SiMysql,
   SiFigma,
   SiTailwindcss,
-  SiCss3,
+  SiCss,
   SiHtml5,
   SiJavascript,
   SiNextdotjs,
@@ -20,7 +21,6 @@ import {
   SiDocker,
   SiGithub,
   SiPostgresql,
-  SiAmazonwebservices,
 } from "react-icons/si"
 import { VscAzure } from "react-icons/vsc"
 
@@ -28,7 +28,7 @@ const techStack = [
   { name: "Next.js",       color: "#000000", bg: "#00000020", Icon: SiNextdotjs },
   { name: "TypeScript",    color: "#3178C6", bg: "#3178C620", Icon: SiTypescript },
   { name: "Node.js",       color: "#5FA04E", bg: "#5FA04E20", Icon: SiNodedotjs },
-  { name: "AWS EC2",       color: "#FF9900", bg: "#FF990020", Icon: SiAmazonwebservices },
+  { name: "AWS EC2",       color: "#FF9900", bg: "#FF990020", Icon: Cloud },
   { name: "Azure Hosting", color: "#0078D4", bg: "#0078D420", Icon: VscAzure },
   { name: "PostgreSQL",    color: "#4169E1", bg: "#4169E120", Icon: SiPostgresql },
   { name: "Docker",        color: "#2496ED", bg: "#2496ED20", Icon: SiDocker },
@@ -38,7 +38,7 @@ const techStack = [
   { name: "MySQL",         color: "#4479A1", bg: "#4479A120", Icon: SiMysql },
   { name: "Figma",         color: "#F24E1E", bg: "#F24E1E20", Icon: SiFigma },
   { name: "Tailwind",      color: "#38B2AC", bg: "#38B2AC20", Icon: SiTailwindcss },
-  { name: "CSS",           color: "#1572B6", bg: "#1572B620", Icon: SiCss3 },
+  { name: "CSS",           color: "#1572B6", bg: "#1572B620", Icon: SiCss },
   { name: "HTML",          color: "#E34F26", bg: "#E34F2620", Icon: SiHtml5 },
   { name: "JavaScript",    color: "#F7DF1E", bg: "#F7DF1E20", Icon: SiJavascript },
 ]

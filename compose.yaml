@@ -1,0 +1,168 @@
+# docker-compose.yml
+#
+# This file defines all the Docker containers
+# needed for the YUMI RAG system.
+#
+# We have 3 main services:
+#
+# 1. db       -> PostgreSQL + pgvector
+# 2. ollama   -> Local AI model server
+# 3. backend  -> FastAPI RAG backend
+
+
+services:
+
+  # ========================================================
+  # 1. POSTGRESQL DATABASE + PGVECTOR
+  # ========================================================
+
+  db:
+
+    # Use the PostgreSQL 17 image with pgvector installed.
+    #
+    # pgvector is needed because your RAG system stores
+    # and searches embedding vectors.
+    image: pgvector/pgvector:pg17
+
+    # Database configuration.
+    environment:
+      # PostgreSQL username.
+      POSTGRES_USER: postgres
+
+      # PostgreSQL password.
+      POSTGRES_PASSWORD: postgres
+
+      # Database name.
+      POSTGRES_DB: yumi
+
+    # Connect Docker's PostgreSQL port to your computer.
+    #
+    # Computer:5432
+    #     ↓
+    # Docker:5432
+    ports:
+      - "5432:5432"
+
+    # Store PostgreSQL data in a Docker volume.
+    #
+    # This means your database data survives
+    # even if the container is recreated.
+    volumes:
+      - yumi_pgdata:/var/lib/postgresql/data
+
+
+  # ========================================================
+  # 2. OLLAMA
+  # ========================================================
+
+  ollama:
+
+    # Ollama provides the local AI model server.
+    image: ollama/ollama:latest
+
+    # Expose Ollama's API to your computer.
+    #
+    # Computer:11434
+    #     ↓
+    # Docker:11434
+    ports:
+      - "11434:11434"
+
+    # Store downloaded AI models in a Docker volume.
+    #
+    # Without this volume, downloaded models could be
+    # lost when the container is recreated.
+    volumes:
+      - yumi_ollama:/root/.ollama
+
+
+  # ========================================================
+  # 3. FASTAPI BACKEND
+  # ========================================================
+
+  backend:
+
+    # Build the backend image using the Dockerfile
+    # located inside the ./backend folder.
+    build:
+      context: ./backend
+
+    # Start these services before the backend.
+    #
+    # The backend needs:
+    # - PostgreSQL
+    # - Ollama
+    depends_on:
+      - db
+      - ollama
+
+    # Environment variables available inside
+    # the backend container.
+    environment:
+
+      # IMPORTANT:
+      #
+      # Inside Docker, we DON'T use localhost for PostgreSQL.
+      #
+      # "db" is the service name above.
+      #
+      # Docker allows the backend to reach PostgreSQL using:
+      #
+      # db:5432
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/yumi
+
+      # IMPORTANT:
+      #
+      # Inside Docker, Ollama is reached using
+      # the service name "ollama".
+      #
+      # Therefore:
+      #
+      # http://ollama:11434
+      OLLAMA_HOST: http://ollama:11434
+
+      # AI model that Ollama should use.
+      OLLAMA_MODEL: llama3.2:1b
+
+      # Persist the downloaded sentence-transformer model across rebuilds.
+      HF_HOME: /root/.cache/huggingface
+
+    # Expose FastAPI to your computer.
+    #
+    # Computer:8000
+    #     ↓
+    # Docker:8000
+    ports:
+      - "8000:8000"
+
+    # Make your local documents folder available
+    # inside the backend container.
+    #
+    # Computer:
+    # ./documents
+    #
+    # Docker:
+    # /app/documents
+    volumes:
+      - ./documents:/app/documents
+      - yumi_hf_cache:/root/.cache/huggingface
+
+
+# ==========================================================
+# DOCKER VOLUMES
+# ==========================================================
+
+# Docker-managed storage.
+#
+# These volumes keep important data even when
+# containers are stopped or recreated.
+volumes:
+
+  # PostgreSQL database storage.
+  yumi_pgdata:
+
+  # Ollama model storage.
+  yumi_ollama:
+
+  # Hugging Face / Sentence Transformers model cache.
+  yumi_hf_cache:

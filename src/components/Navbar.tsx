@@ -5,7 +5,6 @@ import Link from "next/link"
 import { useTheme } from "next-themes"
 import { Moon, Sun, Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { cn } from "@/lib/utils"
 
 const navItems = [
   { name: "Home", href: "#home" },

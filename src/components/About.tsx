@@ -67,7 +67,7 @@ export function About() {
           >
             <div>
               <h3 className="text-2xl font-bold mb-4">
-                Hi, I'm <span className="text-primary">Kemuel Paul Nalagon</span>
+                Hi, I&apos;m <span className="text-primary">Kemuel Paul Nalagon</span>
               </h3>
               <p className="text-base text-secondary leading-relaxed mb-6">
                 I am a dedicated Full-Stack Web Developer passionate about crafting modern, high-performance web applications that bridge user needs with robust software engineering.

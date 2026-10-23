@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Eye } from "lucide-react"
 import { Skeleton } from "./ui/Skeleton"
@@ -11,7 +12,7 @@ const projects = [
     title: "EventSphere",
     description: "Plan, organize, and execute events with ease. From Bookings to reports, everything you need in one place.",
     src: "/EventProj.png",
-    tags: ["Laravel", "MySQL", "Tailwind", "Php", "Javascipt"],
+    tags: ["Laravel", "MySQL", "Tailwind", "Php", "Javascript"],
     github: "https://github.com/KEmsss11/Event-New.git",
     live: "#"
   },
@@ -131,10 +132,12 @@ export function Projects() {
                       }
                       className="relative aspect-[16/10] overflow-hidden rounded-2xl mb-6 flex-shrink-0 cursor-pointer"
                     >
-                      <img
+                      <Image
                         src={project.src}
                         alt={project.title}
-                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center gap-2 text-white font-semibold text-xs tracking-wider uppercase backdrop-blur-[2px]">
                         <Eye size={20} />

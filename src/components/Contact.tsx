@@ -3,7 +3,8 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Mail, ExternalLink, Copy, Check, Sparkles } from "lucide-react"
-import { SiInstagram, SiGithub, SiLinkedin } from "react-icons/si"
+import { SiInstagram, SiGithub } from "react-icons/si"
+import { FaLinkedin } from "react-icons/fa"
 
 export function Contact() {
   const [copied, setCopied] = useState(false)
@@ -30,7 +31,7 @@ export function Contact() {
       name: "LinkedIn",
       handle: "Kemuel Paul Nalagon",
       url: "https://www.linkedin.com/in/kemuel-paul-nalagon-83a73439a/",
-      icon: SiLinkedin,
+      icon: FaLinkedin,
       color: "#0A66C2",
       bg: "#0A66C215",
     },
@@ -54,7 +55,7 @@ export function Contact() {
             className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-accent px-4 py-1 text-xs font-semibold uppercase tracking-widest text-secondary mb-4"
           >
             <Sparkles size={14} className="text-primary" />
-            <span>Let's Connect</span>
+            <span>Let&apos;s Connect</span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

@@ -61,7 +61,7 @@ export function WaveBackground() {
 
       const t = time / 1000
 
-      points.forEach((p, i) => {
+      points.forEach((p) => {
         // Wave logic
         const waveX = Math.sin(t + p.ox * 0.01) * 15
         const waveY = Math.cos(t + p.oy * 0.01) * 15
