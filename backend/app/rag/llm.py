@@ -29,11 +29,20 @@ async def generate_text(prompt: str) -> str:
             json={
                 "model": MODEL,
                 "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 256,
+                "max_completion_tokens": 1024,
             },
         )
         response.raise_for_status()
         data = response.json()
 
-    answer = data["choices"][0]["message"]["content"]
+    choices = data.get("choices") or []
+    message = choices[0].get("message") if choices else None
+    answer = message.get("content") if message else None
+
+    if not isinstance(answer, str) or not answer.strip():
+        finish_reason = choices[0].get("finish_reason") if choices else "no choices"
+        raise RuntimeError(
+            f"Cloudflare returned no answer text. Finish reason: {finish_reason}"
+        )
+
     return answer.strip()
