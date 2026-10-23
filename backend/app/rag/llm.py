@@ -30,6 +30,8 @@ async def generate_text(prompt: str) -> str:
                 "model": MODEL,
                 "messages": [{"role": "user", "content": prompt}],
                 "max_completion_tokens": 1024,
+                "max_completion_tokens": 1024,
+                "chat_template_kwargs": {"enable_thinking": False},
             },
         )
         response.raise_for_status()
