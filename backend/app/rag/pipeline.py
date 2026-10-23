@@ -139,13 +139,20 @@ async def answer_question(
     # Greetings are conversational and do not need a PDF search or an LLM call.
     # Use a full match so a real question such as "Hi, what projects..." still
     # continues through the normal RAG pipeline.
-    normalized_question = re.sub(r"[!?.\s]+$", "", question.strip().casefold())
+    # Normalize punctuation between greeting words too, so phrases like
+    # "Hi! Can I ask?" match the greeting rule below.
+    normalized_question = re.sub(
+        r"[!?.\s]+",
+        " ",
+        question.strip().casefold(),
+    ).strip()
     if re.fullmatch(
-        r"(?:hi|hello|hey)(?:\s+yumi)?|good\s+(?:morning|afternoon|evening)",
+        r"(?:hi|hello|hey)(?:\s+yumi)?(?:\s+(?:can|may)\s+i\s+ask(?:\s+you)?|\s+i\s+have\s+a\s+question)?|"
+        r"good\s+(?:morning|afternoon|evening)(?:\s+(?:can|may)\s+i\s+ask(?:\s+you)?)?",
         normalized_question,
     ):
         return {
-            "answer": "Hi! I’m YUMI. Ask me about Kemuel’s projects, skills, or experience.",
+            "answer": "Hi! I'm YUMI. Of course, ask me about Kemuel's projects, skills, or experience.",
             "sources": [],
         }
     if re.fullmatch(
