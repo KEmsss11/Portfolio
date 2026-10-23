@@ -9,11 +9,6 @@ type ChatMessage = {
   content: string
 }
 
-type ChatSource = {
-  file_name: string
-  page: number
-}
-
 // Turn Markdown bold markers into real <strong> text in the chat UI.
 function renderInlineMarkdown(text: string) {
   return text.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
@@ -25,13 +20,20 @@ function renderInlineMarkdown(text: string) {
   })
 }
 
+// Hide RAG citation labels in the displayed answer.
+function removeSourceCitations(text: string) {
+  return text
+    .replace(/\s*\[Source\s+\d+\]/gi, "")
+    .replace(/[ \t]+([.,;:!?])/g, "$1")
+    .trim()
+}
+
 export function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false)
   const [bubbleMessage, setBubbleMessage] = useState("Hi! I'm YUMI")
 
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState("")
-  const [sources, setSources] = useState<ChatSource[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
 
@@ -49,7 +51,6 @@ export function FloatingChat() {
 
     setInput("")
     setError("")
-    setSources([])
     setIsLoading(true)
 
     try {
@@ -61,7 +62,6 @@ export function FloatingChat() {
 
       const data: {
         answer?: string
-        sources?: ChatSource[]
         error?: string
       } = await response.json()
 
@@ -77,9 +77,8 @@ export function FloatingChat() {
       setMessages((current) => [
         ...current,
         { role: "user", content: question },
-        { role: "assistant", content: answer },
+        { role: "assistant", content: removeSourceCitations(answer) },
       ])
-      setSources(data.sources ?? [])
     } catch (caughtError) {
       setError(
         caughtError instanceof Error
@@ -176,13 +175,6 @@ export function FloatingChat() {
               </p>
             )}
 
-            {sources.length > 0 && (
-              <p className="text-xs text-secondary">
-                Sources: {sources
-                  .map((source) => `${source.file_name}, page ${source.page}`)
-                  .join("; ")}
-              </p>
-            )}
           </div>
 
           <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
