@@ -14,6 +14,16 @@ type ChatSource = {
   page: number
 }
 
+// Turn Markdown bold markers into real <strong> text in the chat UI.
+function renderInlineMarkdown(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>
+    }
+
+    return part
+  })
+}
 
 export function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false)
@@ -148,11 +158,11 @@ export function FloatingChat() {
                               : "block"
                           }
                         >
-                          {line}
+                          {renderInlineMarkdown(line)}
                         </span>
                       )
                     })
-                  : message.content}
+                  : renderInlineMarkdown(message.content)}
               </p>
             ))}
 
